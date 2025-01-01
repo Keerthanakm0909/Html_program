@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+<style type="text/css" id="dcoder_stylesheet">body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Black background */
+    color: #ffa500; /* White text */
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #1c1c1c; /* Dark grey container */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+    text-align: center;
+    color: #fff; /* White heading */
+}
+
+form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+form label {
+    flex-basis: 100%;
+    margin-bottom: 5px;
+    color: #aaa; /* Light grey labels */
+}
+
+form input {
+    flex: 1 1 calc(33% - 10px);
+    padding: 10px;
+    border: 1px solid #444; /* Darker border for inputs */
+    border-radius: 4px;
+    background-color: #333; /* Dark input background */
+    color: #fff; /* White text */
+}
+
+form input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+form button {
+    flex: 1 1 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #444;
+    padding: 10px;
+    text-align: center;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #333; /* Darker rows for zebra effect */
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #222; /* Even darker rows */
+}
+
+button.delete-btn {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button.delete-btn:hover {
+    background-color: #c82333;
+}</style></head>
+<body>
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        <form id="itemForm">
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" required>
+            
+            <label for="itemQuantity">Quantity:</label>
+            <input type="number" id="itemQuantity" min="1" required>
+            
+            <label for="itemPrice">Price In Dollar $:</label>
+            <input type="number" id="itemPrice" min="0" step="0.01" required>
+            
+            <button type="submit">Add to Cart</button>
+        </form>
+
+        <table id="cartTable">
+            <thead>
+                <tr>
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Items will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="script.js"></script>
+
+<script type="text/javascript" id="dcoder_script">document.getElementById("itemForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const itemName = document.getElementById("itemName").value;
+    const itemQuantity = document.getElementById("itemQuantity").value;
+    const itemPrice = document.getElementById("itemPrice").value;
+
+    const tableBody = document.querySelector("#cartTable tbody");
+    const row = document.createElement("tr");
+
+    const total = (itemQuantity * itemPrice).toFixed(2);
+
+    row.innerHTML = `
+        <td>${itemName}</td>
+        <td>${itemQuantity}</td>
+        <td>$${parseFloat(itemPrice).toFixed(2)}</td>
+        <td>$${total}</td>
+        <td><button class="delete-btn">Remove</button></td>
+    `;
+
+    row.querySelector(".delete-btn").addEventListener("click", () => {
+        tableBody.removeChild(row);
+    });
+
+    tableBody.appendChild(row);
+
+    document.getElementById("itemForm").reset();
+});</script></body></html>
